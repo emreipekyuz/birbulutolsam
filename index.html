@@ -1,82 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <base target="_top">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <style>
-        :root { --primary-gradient: linear-gradient(90deg, #f77062 0%, #fe5196 100%); --text-dark: #333; }
-        @keyframes gradient-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); background-size: 400% 400%; animation: gradient-animation 15s ease infinite; color: var(--text-dark); padding-top: 2rem; padding-bottom: 2rem; }
-        .form-card { background: rgba(255, 255, 255, 0.85); border: none; border-radius: 20px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); }
-        .form-control, .form-select { background-color: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0,0,0,0.1); color: var(--text-dark); border-radius: 10px; }
-        .form-control:focus, .form-select:focus { background-color: #fff; border-color: #fe5196; box-shadow: 0 0 0 0.25rem rgba(254, 81, 150, 0.25); color: var(--text-dark); }
-        .form-select option { background-color: #fff; color: var(--text-dark); }
-        .form-check-input:checked { background-color: #e73c7e; border-color: #e73c7e; }
-        .btn-primary { background: var(--primary-gradient); border: none; padding: 0.8rem; border-radius: 10px; font-weight: 700; color: white; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(231, 60, 126, 0.4); }
-        #mevcutKullaniciToggle { cursor: pointer; color: #e73c7e; font-weight: 500;}
-        #kvkkLink { cursor: pointer; text-decoration: underline; }
-        #mevcutKullaniciAlan { display: none; }
-    </style>
-</head>
-<body>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-          <div class="form-card">
-            <div class="card-body p-4 p-sm-5">
-              <h2 class="card-title text-center fw-bold mb-3">Bir Bulut Olsam</h2>
-              <p class="text-center text-secondary mb-4">Etkinlik Kayıt Formu</p>
-              
-              <div class="text-center mb-3">
-                <a id="mevcutKullaniciToggle">Daha önce kaydoldum, bilgilerimi getir.</a>
-              </div>
-              <div id="mevcutKullaniciAlan" class="mb-3">
-                <div class="input-group">
-                  <span class="input-group-text">+90</span>
-                  <input type="tel" class="form-control" id="telefonGetir" placeholder="Telefon numaran" pattern="[5][0-9]{9}" title="Lütfen 10 haneli telefon numaranızı girin (örn: 5551234567)">
-                  <button class="btn btn-outline-secondary" type="button" id="bilgiGetirBtn">Getir</button>
-                </div>
-              </div>
-              <hr id="formSeparator" style="display:none;">
-              
-              <form id="kayitFormu">
-                <select id="etkinlik" class="form-select mb-3" required><option value="">Katılmak istediğin etkinliği seç...</option></select>
-                <input type="text" class="form-control mb-3" id="ad" placeholder="Adın" required>
-                <input type="text" class="form-control mb-3" id="soyad" placeholder="Soyadın" required>
-                <input type="email" class="form-control mb-3" id="email" placeholder="E-posta adresin" required>
-                
-                <div class="input-group mb-3">
-                  <span class="input-group-text">+90</span>
-                  <input type="tel" class="form-control" id="telefon" placeholder="Telefon numaran" required pattern="[5][0-9]{9}" title="Lütfen 10 haneli telefon numaranızı girin (örn: 5551234567)">
-                </div>
-                
-                <div class="form-check mb-4">
-                  <input type="checkbox" class="form-check-input" id="kvkk" required>
-                  <label class="form-check-label" for="kvkk" style="font-size: 0.8rem;">
-                    <a id="kvkkLink" data-bs-toggle="modal" data-bs-target="#kvkkModal">KVKK aydınlatma metnini</a> okudum, anladım ve kabul ediyorum.
-                  </label>
-                </div>
-                
-                <div class="d-grid">
-                  <button type="submit" class="btn btn-primary btn-lg">KAYIT OL</button>
-                </div>
-              </form>
-              <div id="status" class="mt-3"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+/**
+ * Bu fonksiyon, web uygulamasına bir GET isteği geldiğinde çalışır.
+ * Etkinlik listesini çekmek için kullanılır.
+ */
+function doGet(e) {
+  var response;
+  try {
+    if (e.parameter.action == 'getEtkinlikler') {
+      var etkinlikler = getEtkinliklerData();
+      response = { success: true, data: etkinlikler };
+    } else {
+      response = { success: true, message: 'API çalışıyor.' };
+    }
+  } catch (error) {
+    response = { success: false, message: error.message };
+  }
+  
+  // DÜZELTME: Her cevaba CORS izni ekleniyor.
+  return ContentService.createTextOutput(JSON.stringify(response))
+    .setMimeType(ContentService.MimeType.JSON)
+    .addHttpHeader("Access-Control-Allow-Origin", "*");
+}
 
-    <div class="modal fade" id="kvkkModal" tabindex="-1">
-        </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+/**
+ * Bu fonksiyon, web uygulamasına bir POST isteği geldiğinde çalışır.
+ * Yeni kayıt eklemek veya mevcut kullanıcıyı bulmak için kullanılır.
+ */
+function doPost(e) {
+  var response;
+  try {
+    var requestData = JSON.parse(e.postData.contents);
+    var action = requestData.action;
+
+    if (action === 'kullaniciyiBul') {
+      var kullanici = kullaniciyiBulData(requestData.telefon);
+      response = { success: true, data: kullanici };
+    } else if (action === 'kayitEkle') {
+      var sonuc = kayitEkleData(requestData.formData);
+      response = { success: true, message: sonuc };
+    } else {
+      throw new Error('Geçersiz eylem belirtildi.');
+    }
+  } catch (error) {
+    response = { success: false, message: error.message };
+  }
+
+  // DÜZELTME: Her cevaba CORS izni ekleniyor.
+  return ContentService.createTextOutput(JSON.stringify(response))
+    .setMimeType(ContentService.MimeType.JSON)
+    .addHttpHeader("Access-Control-Allow-Origin", "*");
+}
+
+// YARDIMCI FONKSİYONLARIN İSİMLERİ KARIŞIKLIĞI ÖNLEMEK İÇİN DEĞİŞTİRİLDİ
+
+function getEtkinliklerData() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Etkinlikler');
+  if (!sheet) throw new Error("Sunucu tarafında 'Etkinlikler' sayfası bulunamadı.");
+  var data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 2).getValues();
+  return data.filter(row => row[0] !== '');
+}
+
+function kullaniciyiBulData(telefon) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Kayıtlar');
+  if (!sheet) throw new Error("Sunucu tarafında 'Kayıtlar' sayfası bulunamadı.");
+  
+  var data = sheet.getDataRange().getValues();
+  for (var i = data.length - 1; i >= 1; i--) {
+    if (String(data[i][5]) === String(telefon)) {
+      return {
+        ad: data[i][2],
+        soyad: data[i][3],
+        email: data[i][4],
+        telefon: data[i][5],
+        universite: data[i][7] || '',
+        bolum: data[i][8] || ''
+      };
+    }
+  }
+  return null;
+}
+
+function kayitEkleData(formData) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Kayıtlar');
+  if (!sheet) throw new Error("Sunucu tarafında 'Kayıtlar' sayfası bulunamadı.");
+  
+  sheet.appendRow([
+    new Date(),
+    formData.etkinlik,
+    formData.ad,
+    formData.soyad,
+    formData.email,
+    formData.telefon,
+    'Evet',
+    formData.universite,
+    formData.bolum
+  ]);
+  return "Harika! Kaydını aldık. Etkinlikte görüşmek üzere!";
+}
