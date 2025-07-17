@@ -18,9 +18,7 @@
         .form-check-input:checked { background-color: #e73c7e; border-color: #e73c7e; }
         .btn-primary { background: var(--primary-gradient); border: none; padding: 0.8rem; border-radius: 10px; font-weight: 700; color: white; transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(231, 60, 126, 0.4); }
-        #mevcutKullaniciToggle { cursor: pointer; color: #e73c7e; font-weight: 500;}
         #kvkkLink { cursor: pointer; text-decoration: underline; }
-        #mevcutKullaniciAlan { display: none; }
     </style>
 </head>
 <body>
@@ -31,18 +29,6 @@
             <div class="card-body p-4 p-sm-5">
               <h2 class="card-title text-center fw-bold mb-3">☁️ Bir Bulut Olsam</h2>
               <p class="text-center text-secondary mb-4">Etkinlik Kayıt Formu</p>
-              
-              <div class="text-center mb-3">
-                <a id="mevcutKullaniciToggle">Daha önce kaydoldum, bilgilerimi getir.</a>
-              </div>
-              <div id="mevcutKullaniciAlan" class="mb-3">
-                <div class="input-group">
-                  <span class="input-group-text">+90</span>
-                  <input type="tel" class="form-control" id="telefonGetir" placeholder="Telefon numaran" pattern="[5][0-9]{9}" title="Lütfen 10 haneli telefon numaranızı girin (örn: 5551234567)">
-                  <button class="btn btn-outline-secondary" type="button" id="bilgiGetirBtn">Getir</button>
-                </div>
-              </div>
-              <hr id="formSeparator" style="display:none;">
               
               <form id="kayitFormu">
                 <select id="etkinlik" class="form-select mb-3" required><option value="">Katılmak istediğin etkinliği seç...</option></select>
@@ -76,31 +62,10 @@
     <div class="modal fade" id="kvkkModal" tabindex="-1" aria-labelledby="kvkkModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="kvkkModalLabel">BİR BULUT OLSAM DERNEĞİ ETKİNLİKLERİ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+                <div class="modal-header"><h5 class="modal-title" id="kvkkModalLabel">BİR BULUT OLSAM DERNEĞİ ETKİNLİKLERİ</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
                 <div class="modal-body">
-                    <h6>KİŞİSEL VERİLERİN KORUNMASI KANUNU KAPSAMINDA AYDINLATMA METNİ</h6>
-                    <p>Bir Bulut Olsam Derneği ("Dernek") olarak, veri sorumlusu sıfatıyla, düzenlediğimiz etkinliklere katılımınız sırasında sizlerden elde edilen kişisel verilerinize büyük önem veriyoruz. Kişisel verilerinizin 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca işlenmesi ve korunması süreçlerinde şeffaflığı sağlamak amacıyla bu aydınlatma metnini bilgilerinize sunuyoruz.</p>
-                    <h6>1. Veri Sorumlusunun Kimliği</h6>
-                    <p>KVKK uyarınca kişisel verileriniz, veri sorumlusu olarak aşağıda bilgileri sunulan Bir Bulut Olsam Derneği tarafından işlenecektir.</p>
-                    <p><strong>Derneğin Adı:</strong> Bir Bulut Olsam Derneği<br><strong>Adres:</strong> Karaman Mahallesi, Tuna Caddesi, Fulya Sokak, No:1, Nilüfer/Bursa<br><strong>Telefon:</strong> 0555 156 07 33<br><strong>E-posta:</strong> birbulutolsamdernegi@gmail.com<br><strong>Web Sitesi:</strong> Bulunmamaktadır.</p>
-                    <h6>2. Kişisel Verilerin İşlenme Amaçları</h6>
-                    <p>Etkinliklerimize katılımınızla bağlantılı olarak toplanan kişisel verileriniz, aşağıda belirtilen amaçlarla sınırlı olarak işlenmektedir: Etkinlik Yönetimi, İletişim, Tanıtım ve Kamuoyu Bilgilendirmesi, Yasal Yükümlülükler, Raporlama ve Analiz.</p>
-                    <h6>3. İşlenen Kişisel Veri Kategorileri ve Toplama Yöntemleri</h6>
-                    <p>Ad, Soyadı, E-posta Adresi, Telefon Numarası ile etkinlik sırasında çekilen fotoğraf ve video kayıtları gibi verileriniz toplanmaktadır.</p>
-                    <h6>4. Kişisel Verilerin Aktarılabileceği Taraflar ve Aktarım Amaçları</h6>
-                    <p>Verileriniz, yasal zorunluluklar ve etkinlik organizasyonu kapsamında hizmet alınan iş ortakları ile paylaşılabilecektir. Etkinlik fotoğraf/video kayıtları, tanıtım amacıyla kamuoyu ile paylaşılabilir.</p>
-                    <h6>5. Kişisel Veri Toplamanın Hukuki Sebebi</h6>
-                    <p>Kişisel verileriniz, KVKK’nın 5. maddesinde belirtilen hukuki sebeplere dayanılarak işlenmektedir.</p>
-                    <h6>6. İlgili Kişi Olarak Haklarınız (KVKK Madde 11)</h6>
-                    <p>KVKK'nın 11. maddesi uyarınca; kişisel verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltilmesini/silinmesini isteme gibi haklara sahipsiniz. Bu haklarınızı kullanmak için yukarıdaki iletişim bilgilerimizden bize ulaşabilirsiniz.</p>
-                    <p class="mt-4 text-end"><strong>Bir Bulut Olsam Derneği</strong></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                </div>
+                    </div>
+                <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>
             </div>
         </div>
     </div>
@@ -108,17 +73,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      // API LİNKİ SİZİN VERDİĞİNİZ SON VE GÜNCEL LİNK İLE DEĞİŞTİRİLDİ.
-      const API_URL = "https://script.google.com/macros/s/AKfycbwzffifMo-NGuI9k3ZnjnS-H6reovVat4mZE4ENudMB95VNWrtvUgUDiGnr4il_upLwx/exec";
+      const API_URL = "https://script.google.com/macros/s/AKfycbwE2GA2h4pczz4Kd-CJ0Rz_0nKWFY49CWzryEZu1p1GC-BpXRaDmCufPj1uLLwGUGL-/exec";
 
-      const mevcutKullaniciToggle = document.getElementById("mevcutKullaniciToggle");
-      const mevcutKullaniciAlan = document.getElementById("mevcutKullaniciAlan");
-      const bilgiGetirBtn = document.getElementById("bilgiGetirBtn");
+      // Sadece gerekli elementler tanımlandı
       const kayitFormu = document.getElementById("kayitFormu");
       const statusDiv = document.getElementById("status");
-      const formSeparator = document.getElementById("formSeparator");
 
-      // --- YARDIMCI FONKSİYONLAR ---
       function etkinlikListesiniDoldur(etkinlikListesi) {
         const select = document.getElementById("etkinlik");
         if (etkinlikListesi) {
@@ -131,67 +91,25 @@
         }
       }
 
-      function kullaniciBilgileriniDoldur(kullaniciVerisi) {
-        if (kullaniciVerisi) {
-          document.getElementById("ad").value = kullaniciVerisi.ad;
-          document.getElementById("soyad").value = kullaniciVerisi.soyad;
-          document.getElementById("email").value = kullaniciVerisi.email;
-          document.getElementById("telefon").value = kullaniciVerisi.telefon.replace(/\D/g, '').slice(-10);
-          statusDiv.innerHTML = `<div class="alert alert-success">Bilgilerin bulundu! Etkinliği seçip kaydını tamamlayabilirsin.</div>`;
-        } else {
-          statusDiv.innerHTML = `<div class="alert alert-warning">Bu telefona ait kayıt bulamadık. Lütfen yeni kayıt ol.</div>`;
-        }
-      }
-
       function hataGoster(error) {
-        statusDiv.innerHTML = `<div class="alert alert-danger">İletişim hatası: ${error.message}. Lütfen sayfayı yenileyin veya farklı bir tarayıcı deneyin.</div>`;
+        statusDiv.innerHTML = `<div class="alert alert-danger">İletişim hatası: ${error.message}. Lütfen sayfayı yenileyin.</div>`;
       }
       
-      // --- OLAY DİNLEYİCİLERİ ---
       window.onload = function() {
-        fetch(API_URL, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ action: 'getEtkinlikler' })
-        })
-        .then(response => response.json())
-        .then(result => {
-          if (result.success) {
-            etkinlikListesiniDoldur(result.data);
-          } else { throw new Error(result.message); }
-        })
-        .catch(hataGoster);
+        fetch(API_URL + "?action=getEtkinlikler")
+          .then(response => {
+            if (!response.ok) throw new Error('API sunucusuna ulaşılamadı.');
+            return response.json();
+          })
+          .then(result => {
+            if (result.success) {
+              etkinlikListesiniDoldur(result.data);
+            } else { throw new Error(result.message); }
+          })
+          .catch(hataGoster);
       };
 
-      mevcutKullaniciToggle.addEventListener("click", e => {
-        e.preventDefault();
-        const isHidden = mevcutKullaniciAlan.style.display === "none" || mevcutKullaniciAlan.style.display === "";
-        mevcutKullaniciAlan.style.display = isHidden ? "block" : "none";
-        formSeparator.style.display = isHidden ? "block" : "none";
-      });
-
-      bilgiGetirBtn.addEventListener("click", () => {
-        const telefonInput = document.getElementById("telefonGetir");
-        if (!telefonInput.value) {
-          statusDiv.innerHTML = `<div class="alert alert-warning">Lütfen bir telefon numarası gir.</div>`;
-          return;
-        }
-        const telefon = "+90" + telefonInput.value;
-        statusDiv.innerHTML = `<div class="alert alert-info">Bilgilerin aranıyor...</div>`;
-        
-        fetch(API_URL, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ action: 'kullaniciyiBul', telefon: telefon })
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                kullaniciBilgileriniDoldur(result.data);
-            } else { throw new Error(result.message); }
-        })
-        .catch(hataGoster);
-      });
+      // "Mevcut Kullanıcı" ile ilgili tüm JavaScript kodları kaldırıldı.
 
       kayitFormu.addEventListener("submit", e => {
         e.preventDefault();
@@ -200,7 +118,6 @@
             formButton.disabled = false;
             formButton.innerHTML = "KAYIT OL";
         };
-
         formButton.disabled = true;
         formButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> KAYDEDİLİYOR...`;
         statusDiv.innerHTML = "";
@@ -215,10 +132,12 @@
         
         fetch(API_URL, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ action: 'kayitEkle', formData: formData })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('API sunucusuna ulaşılamadı.');
+            return response.json();
+        })
         .then(result => {
             if(result.success) {
                 statusDiv.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
