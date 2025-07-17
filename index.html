@@ -126,14 +126,28 @@
     </div>
 
     <div class="modal fade" id="kvkkModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="kvkkModalLabel">BİR BULUT OLSAM DERNEĞİ ETKİNLİKLERİ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+          </div>
         </div>
+      </div>
+    </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      // API LİNKİ SİZİN VERDİĞİNİZ GÜNCEL LİNK İLE DEĞİŞTİRİLDİ
-      const API_URL = "https://script.google.com/macros/s/AKfycbwGaqezsMSPpJ1yto7ctxaiIp_ZyNd_VNiQD86oKZNZudqRQPbTTn6EHrfQGwrSrJ5V/exec";
+      // API LİNKİ SİZİN VERDİĞİNİZ SON VE GÜNCEL LİNK İLE DEĞİŞTİRİLDİ.
+      const API_URL = "https://script.google.com/macros/s/AKfycbzXnlA3yXMO0NE77-b218vfY3aAxcuaxg8BFe8MsSUcDiGkY_XFjCp07fUcOxqIrkU/exec";
 
+      // Element Tanımlamaları
       const mevcutKullaniciToggle = document.getElementById("mevcutKullaniciToggle");
       const mevcutKullaniciAlan = document.getElementById("mevcutKullaniciAlan");
       const bilgiGetirBtn = document.getElementById("bilgiGetirBtn");
@@ -141,6 +155,7 @@
       const statusDiv = document.getElementById("status");
       const formSeparator = document.getElementById("formSeparator");
 
+      // Yardımcı Fonksiyonlar
       function etkinlikListesiniDoldur(etkinlikListesi) {
         const select = document.getElementById("etkinlik");
         if (etkinlikListesi) {
@@ -169,10 +184,11 @@
         statusDiv.innerHTML = `<div class="alert alert-danger">Bir şeyler ters gitti: ${error.message}</div>`;
       }
       
+      // Olay Dinleyicileri (Event Listeners)
       window.onload = function() {
         fetch(API_URL, {
           method: 'POST',
-          headers: {'Content-Type': 'text/plain'},
+          headers: {'Content-Type': 'text/plain'}, // POST için bu header gereklidir.
           body: JSON.stringify({ action: 'getEtkinlikler' })
         })
         .then(response => response.json())
