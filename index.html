@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* CSS stilleri bir öncekiyle aynı, değişiklik yok */
+        :root { --primary-gradient: linear-gradient(90deg, #f77062 0%, #fe5196 100%); --text-dark: #333; }
+        @keyframes gradient-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); background-size: 400% 400%; animation: gradient-animation 15s ease infinite; color: var(--text-dark); padding-top: 2rem; padding-bottom: 2rem; }
+        .form-card { background: rgba(255, 255, 255, 0.85); border: none; border-radius: 20px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); }
+        .form-control, .form-select { background-color: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0,0,0,0.1); color: var(--text-dark); border-radius: 10px; }
+        .form-control:focus, .form-select:focus { background-color: #fff; border-color: #fe5196; box-shadow: 0 0 0 0.25rem rgba(254, 81, 150, 0.25); color: var(--text-dark); }
+        .form-select option { background-color: #fff; color: var(--text-dark); }
+        .form-check-input:checked { background-color: #e73c7e; border-color: #e73c7e; }
+        .btn-primary { background: var(--primary-gradient); border: none; padding: 0.8rem; border-radius: 10px; font-weight: 700; color: white; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(231, 60, 126, 0.4); }
+        #mevcutKullaniciToggle { cursor: pointer; color: #e73c7e; font-weight: 500;}
+        #kvkkLink { cursor: pointer; text-decoration: underline; }
+        #mevcutKullaniciAlan { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <div class="modal fade" id="kvkkModal" tabindex="-1"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // ÇOK ÖNEMLİ: BURAYA 1. AŞAMADA KOPYALADIĞINIZ API URL'SİNİ YAPIŞTIRIN
+      const API_URL = "BURAYA_1._AŞAMADA_KOPYALADIĞINIZ_API_URL'Sİ_GELECEK";
+
+      // Diğer element tanımlamaları aynı
+      const mevcutKullaniciToggle = document.getElementById("mevcutKullaniciToggle");
+      // ... Diğer tüm elementler burada ...
+
+      // Sayfa yüklendiğinde etkinlikleri doldurur
+      window.onload = function() {
+        fetch(API_URL + "?action=getEtkinlikler")
+          .then(response => response.json())
+          .then(result => {
+            if (result.success) {
+              etkinlikListesiniDoldur(result.data);
+            } else {
+              throw new Error(result.message);
+            }
+          })
+          .catch(hataGoster);
+      };
+
+      // "Bilgileri Getir" butonuna tıklandığında
+      bilgiGetirBtn.addEventListener("click", () => {
+        const telefon = "+90" + document.getElementById("telefonGetir").value;
+        statusDiv.innerHTML = `<div class="alert alert-info">Bilgilerin aranıyor...</div>`;
+        
+        fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'kullaniciyiBul', telefon: telefon })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                kullaniciBilgileriniDoldur(result.data);
+            } else {
+                throw new Error(result.message);
+            }
+        })
+        .catch(hataGoster);
+      });
+
+      // Ana kayıt formu gönderildiğinde
+      kayitFormu.addEventListener("submit", e => {
+        e.preventDefault();
+        const formData = {
+          etkinlik: document.getElementById("etkinlik").value,
+          ad: document.getElementById("ad").value,
+          soyad: document.getElementById("soyad").value,
+          email: document.getElementById("email").value,
+          telefon: "+90" + document.getElementById("telefon").value
+        };
+        
+        fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'kayitEkle', formData: formData })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if(result.success) {
+                statusDiv.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+                kayitFormu.reset();
+            } else {
+                throw new Error(result.message);
+            }
+        })
+        .catch(hataGoster);
+      });
+
+      // Diğer yardımcı fonksiyonlar aynı kalabilir
+      // function etkinlikListesiniDoldur(etkinlikListesi) { ... }
+      // function kullaniciBilgileriniDoldur(kullaniciVerisi) { ... }
+      // function hataGoster(error) { ... }
+
+    </script>
+</body>
+</html>
