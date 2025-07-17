@@ -106,8 +106,6 @@
                   <span class="input-group-text">+90</span>
                   <input type="tel" class="form-control" id="telefon" placeholder="Telefon numaran" required pattern="[5][0-9]{9}" title="Lütfen 10 haneli telefon numaranızı girin (örn: 5551234567)">
                 </div>
-                <input type="text" class="form-control mb-3" id="universite" placeholder="Üniversiten" required>
-                <input type="text" class="form-control mb-3" id="bolum" placeholder="Bölümün" required>
                 
                 <div class="form-check mb-4">
                   <input type="checkbox" class="form-check-input" id="kvkk" required>
@@ -134,9 +132,8 @@
 
     <script>
       // API LİNKİ SİZİN VERDİĞİNİZ GÜNCEL LİNK İLE DEĞİŞTİRİLDİ
-      const API_URL = "https://script.google.com/macros/s/AKfycbzffifMo-NGuI9k3ZnjnS-H6reovVat4mZE4ENudMB95VNWrtvUgUDiGnr4il_upLwx/exec";
+      const API_URL = "https://script.google.com/macros/s/AKfycbwGaqezsMSPpJ1yto7ctxaiIp_ZyNd_VNiQD86oKZNZudqRQPbTTn6EHrfQGwrSrJ5V/exec";
 
-      // Element Tanımlamaları
       const mevcutKullaniciToggle = document.getElementById("mevcutKullaniciToggle");
       const mevcutKullaniciAlan = document.getElementById("mevcutKullaniciAlan");
       const bilgiGetirBtn = document.getElementById("bilgiGetirBtn");
@@ -144,7 +141,6 @@
       const statusDiv = document.getElementById("status");
       const formSeparator = document.getElementById("formSeparator");
 
-      // Yardımcı Fonksiyonlar
       function etkinlikListesiniDoldur(etkinlikListesi) {
         const select = document.getElementById("etkinlik");
         if (etkinlikListesi) {
@@ -163,8 +159,6 @@
           document.getElementById("soyad").value = kullaniciVerisi.soyad;
           document.getElementById("email").value = kullaniciVerisi.email;
           document.getElementById("telefon").value = kullaniciVerisi.telefon.replace(/\D/g, '').slice(-10);
-          document.getElementById("universite").value = kullaniciVerisi.universite;
-          document.getElementById("bolum").value = kullaniciVerisi.bolum;
           statusDiv.innerHTML = `<div class="alert alert-success">Bilgilerin bulundu! Etkinliği seçip kaydını tamamlayabilirsin.</div>`;
         } else {
           statusDiv.innerHTML = `<div class="alert alert-warning">Bu telefona ait kayıt bulamadık. Lütfen yeni kayıt ol.</div>`;
@@ -175,11 +169,10 @@
         statusDiv.innerHTML = `<div class="alert alert-danger">Bir şeyler ters gitti: ${error.message}</div>`;
       }
       
-      // Olay Dinleyicileri (Event Listeners)
       window.onload = function() {
         fetch(API_URL, {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: {'Content-Type': 'text/plain'},
           body: JSON.stringify({ action: 'getEtkinlikler' })
         })
         .then(response => response.json())
@@ -209,7 +202,7 @@
         
         fetch(API_URL, {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: {'Content-Type': 'text/plain'},
           body: JSON.stringify({ action: 'kullaniciyiBul', telefon: telefon })
         })
         .then(response => response.json())
@@ -233,14 +226,12 @@
           ad: document.getElementById("ad").value,
           soyad: document.getElementById("soyad").value,
           email: document.getElementById("email").value,
-          telefon: "+90" + document.getElementById("telefon").value,
-          universite: document.getElementById("universite").value,
-          bolum: document.getElementById("bolum").value
+          telefon: "+90" + document.getElementById("telefon").value
         };
         
         fetch(API_URL, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'text/plain'},
             body: JSON.stringify({ action: 'kayitEkle', formData: formData })
         })
         .then(response => response.json())
@@ -251,4 +242,11 @@
             } else { throw new Error(result.message); }
         })
         .catch(hataGoster)
-        .finally(() =>
+        .finally(() => {
+            formButton.disabled = false;
+            formButton.innerHTML = "KAYIT OL";
+        });
+      });
+    </script>
+</body>
+</html>
