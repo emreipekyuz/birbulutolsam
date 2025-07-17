@@ -129,7 +129,7 @@
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="kvkkModalLabel">BİR BULUT OLSAM DERNEĞİ ETKİNLİKLERİ</h5>
+            <h5 class="modal-title">BİR BULUT OLSAM DERNEĞİ ETKİNLİKLERİ</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -144,10 +144,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      // API LİNKİ SİZİN VERDİĞİNİZ SON VE GÜNCEL LİNK İLE DEĞİŞTİRİLDİ.
-      const API_URL = "https://script.google.com/macros/s/AKfycbzXnlA3yXMO0NE77-b218vfY3aAxcuaxg8BFe8MsSUcDiGkY_XFjCp07fUcOxqIrkU/exec";
+      const API_URL = "https://script.google.com/macros/s/AKfycbwE2GA2h4pczz4Kd-CJ0Rz_0nKWFY49CWzryEZu1p1GC-BpXRaDmCufPj1uLLwGUGL-/exec";
 
-      // Element Tanımlamaları
       const mevcutKullaniciToggle = document.getElementById("mevcutKullaniciToggle");
       const mevcutKullaniciAlan = document.getElementById("mevcutKullaniciAlan");
       const bilgiGetirBtn = document.getElementById("bilgiGetirBtn");
@@ -155,7 +153,6 @@
       const statusDiv = document.getElementById("status");
       const formSeparator = document.getElementById("formSeparator");
 
-      // Yardımcı Fonksiyonlar
       function etkinlikListesiniDoldur(etkinlikListesi) {
         const select = document.getElementById("etkinlik");
         if (etkinlikListesi) {
@@ -184,20 +181,15 @@
         statusDiv.innerHTML = `<div class="alert alert-danger">Bir şeyler ters gitti: ${error.message}</div>`;
       }
       
-      // Olay Dinleyicileri (Event Listeners)
       window.onload = function() {
-        fetch(API_URL, {
-          method: 'POST',
-          headers: {'Content-Type': 'text/plain'}, // POST için bu header gereklidir.
-          body: JSON.stringify({ action: 'getEtkinlikler' })
-        })
-        .then(response => response.json())
-        .then(result => {
-          if (result.success) {
-            etkinlikListesiniDoldur(result.data);
-          } else { throw new Error(result.message); }
-        })
-        .catch(hataGoster);
+        fetch(API_URL + "?action=getEtkinlikler")
+          .then(response => response.json())
+          .then(result => {
+            if (result.success) {
+              etkinlikListesiniDoldur(result.data);
+            } else { throw new Error(result.message); }
+          })
+          .catch(hataGoster);
       };
 
       mevcutKullaniciToggle.addEventListener("click", e => {
@@ -218,7 +210,6 @@
         
         fetch(API_URL, {
           method: 'POST',
-          headers: {'Content-Type': 'text/plain'},
           body: JSON.stringify({ action: 'kullaniciyiBul', telefon: telefon })
         })
         .then(response => response.json())
@@ -247,7 +238,6 @@
         
         fetch(API_URL, {
             method: 'POST',
-            headers: {'Content-Type': 'text/plain'},
             body: JSON.stringify({ action: 'kayitEkle', formData: formData })
         })
         .then(response => response.json())
